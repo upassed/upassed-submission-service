@@ -1,0 +1,36 @@
+env: "testing"
+application_name: upassed-answer-service
+grpc_server:
+    port: "44044"
+    timeout: 10m
+storage:
+    host: localhost
+    port: 5432
+    database_name: upassed-answer-service-db
+    user: user
+    password: password
+migrations:
+    migrations_path: "../../../migration/scripts"
+    migrations_table_name: migrations
+services:
+    authentication_service:
+        host: localhost
+        port: 44045
+timeouts:
+    endpoint_execution_timeout_ms: 60000
+tracing:
+    host: localhost
+    port: 14268
+    answer_tracer_name: answer-tracer
+rabbit:
+    user: upassed-rabbit-user
+    password: upassed-rabbit-password
+    host: localhost
+    port: 5672
+    exchange:
+        name: upassed-answer-service
+        type: direct
+    queues:
+        answer_create:
+            name: answer-create-queue
+            routing_key: answer.create
