@@ -6,7 +6,7 @@ import (
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/upassed/upassed-answer-service/internal/handling"
+	"github.com/upassed/upassed-submission-service/internal/handling"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

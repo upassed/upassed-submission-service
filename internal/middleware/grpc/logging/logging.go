@@ -3,8 +3,8 @@ package logging
 import (
 	"context"
 	"fmt"
-	"github.com/upassed/upassed-answer-service/internal/logging"
-	"github.com/upassed/upassed-answer-service/internal/middleware/common/request_id"
+	"github.com/upassed/upassed-submission-service/internal/logging"
+	requestid "github.com/upassed/upassed-submission-service/internal/middleware/common/request_id"
 	"log/slog"
 	"time"
 

@@ -2,9 +2,9 @@ package submission
 
 import (
 	"context"
-	"github.com/upassed/upassed-answer-service/internal/config"
-	domain "github.com/upassed/upassed-answer-service/internal/repository/model"
-	business "github.com/upassed/upassed-answer-service/internal/service/model"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	domain "github.com/upassed/upassed-submission-service/internal/repository/model"
+	business "github.com/upassed/upassed-submission-service/internal/service/model"
 	"log/slog"
 )
 

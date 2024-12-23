@@ -2,7 +2,7 @@ package submission_test
 
 import (
 	"github.com/stretchr/testify/require"
-	"github.com/upassed/upassed-answer-service/internal/util"
+	"github.com/upassed/upassed-submission-service/internal/util"
 	"testing"
 )
 

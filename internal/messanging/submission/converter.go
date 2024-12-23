@@ -3,8 +3,8 @@ package submission
 import (
 	"encoding/json"
 	"github.com/google/uuid"
-	event "github.com/upassed/upassed-answer-service/internal/messanging/model"
-	business "github.com/upassed/upassed-answer-service/internal/service/model"
+	event "github.com/upassed/upassed-submission-service/internal/messanging/model"
+	business "github.com/upassed/upassed-submission-service/internal/service/model"
 )
 
 func ConvertToSubmissionCreateRequest(messageBody []byte) (*event.SubmissionCreateRequest, error) {

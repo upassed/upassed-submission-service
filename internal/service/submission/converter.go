@@ -2,8 +2,8 @@ package submission
 
 import (
 	"github.com/google/uuid"
-	domain "github.com/upassed/upassed-answer-service/internal/repository/model"
-	business "github.com/upassed/upassed-answer-service/internal/service/model"
+	domain "github.com/upassed/upassed-submission-service/internal/repository/model"
+	business "github.com/upassed/upassed-submission-service/internal/service/model"
 )
 
 func ConvertToDomainSubmissions(businessSubmission *business.Submission) []*domain.Submission {

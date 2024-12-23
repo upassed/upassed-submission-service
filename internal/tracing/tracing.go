@@ -2,8 +2,8 @@ package tracing
 
 import (
 	"context"
-	"github.com/upassed/upassed-answer-service/internal/config"
-	"github.com/upassed/upassed-answer-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	"github.com/upassed/upassed-submission-service/internal/logging"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/sdk/resource"

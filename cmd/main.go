@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	"github.com/upassed/upassed-answer-service/internal/app"
-	"github.com/upassed/upassed-answer-service/internal/config"
-	"github.com/upassed/upassed-answer-service/internal/logging"
-	"github.com/upassed/upassed-answer-service/internal/tracing"
+	"github.com/upassed/upassed-submission-service/internal/app"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	"github.com/upassed/upassed-submission-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/tracing"
 	"log"
 	"log/slog"
 	"os"

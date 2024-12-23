@@ -2,7 +2,7 @@ package submission
 
 import (
 	"errors"
-	"github.com/upassed/upassed-answer-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/logging"
 	"github.com/wagslane/go-rabbitmq"
 )
 

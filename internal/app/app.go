@@ -1,15 +1,15 @@
 package app
 
 import (
-	"github.com/upassed/upassed-answer-service/internal/config"
-	"github.com/upassed/upassed-answer-service/internal/logging"
-	"github.com/upassed/upassed-answer-service/internal/messanging"
-	submissionRabbit "github.com/upassed/upassed-answer-service/internal/messanging/submission"
-	"github.com/upassed/upassed-answer-service/internal/middleware/common/auth"
-	"github.com/upassed/upassed-answer-service/internal/repository"
-	submissionRepository "github.com/upassed/upassed-answer-service/internal/repository/submission"
-	"github.com/upassed/upassed-answer-service/internal/server"
-	"github.com/upassed/upassed-answer-service/internal/service/submission"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	"github.com/upassed/upassed-submission-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/messanging"
+	submissionRabbit "github.com/upassed/upassed-submission-service/internal/messanging/submission"
+	"github.com/upassed/upassed-submission-service/internal/middleware/common/auth"
+	"github.com/upassed/upassed-submission-service/internal/repository"
+	submissionRepository "github.com/upassed/upassed-submission-service/internal/repository/submission"
+	"github.com/upassed/upassed-submission-service/internal/server"
+	"github.com/upassed/upassed-submission-service/internal/service/submission"
 	"log/slog"
 )
 

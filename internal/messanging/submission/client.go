@@ -1,10 +1,10 @@
 package submission
 
 import (
-	"github.com/upassed/upassed-answer-service/internal/config"
-	"github.com/upassed/upassed-answer-service/internal/logging"
-	"github.com/upassed/upassed-answer-service/internal/middleware/common/auth"
-	"github.com/upassed/upassed-answer-service/internal/service/submission"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	"github.com/upassed/upassed-submission-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/middleware/common/auth"
+	"github.com/upassed/upassed-submission-service/internal/service/submission"
 	"github.com/wagslane/go-rabbitmq"
 	"log/slog"
 )

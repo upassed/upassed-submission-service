@@ -2,7 +2,7 @@ package amqp
 
 import (
 	"context"
-	"github.com/upassed/upassed-answer-service/internal/messanging"
+	"github.com/upassed/upassed-submission-service/internal/messanging"
 )
 
 type Middleware func(ctx context.Context, handler messanging.HandlerWithContext) messanging.HandlerWithContext

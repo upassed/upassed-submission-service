@@ -3,7 +3,7 @@ package util
 import (
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/google/uuid"
-	event "github.com/upassed/upassed-answer-service/internal/messanging/model"
+	event "github.com/upassed/upassed-submission-service/internal/messanging/model"
 )
 
 func RandomEventSubmissionCreateRequest() *event.SubmissionCreateRequest {

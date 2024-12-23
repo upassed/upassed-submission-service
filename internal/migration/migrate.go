@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang-migrate/migrate/v4"
-	"github.com/upassed/upassed-answer-service/internal/config"
-	"github.com/upassed/upassed-answer-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	"github.com/upassed/upassed-submission-service/internal/logging"
 	"log/slog"
 
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"

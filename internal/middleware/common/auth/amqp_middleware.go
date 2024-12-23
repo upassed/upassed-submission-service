@@ -2,10 +2,10 @@ package auth
 
 import (
 	"context"
-	"github.com/upassed/upassed-answer-service/internal/config"
-	"github.com/upassed/upassed-answer-service/internal/logging"
-	"github.com/upassed/upassed-answer-service/internal/messanging"
-	"github.com/upassed/upassed-answer-service/internal/middleware/amqp"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	"github.com/upassed/upassed-submission-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/messanging"
+	"github.com/upassed/upassed-submission-service/internal/middleware/amqp"
 	"github.com/wagslane/go-rabbitmq"
 	"log/slog"
 )

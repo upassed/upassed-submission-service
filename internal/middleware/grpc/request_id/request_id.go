@@ -2,9 +2,8 @@ package requestid
 
 import (
 	"context"
-	"github.com/upassed/upassed-answer-service/internal/middleware/common/request_id"
-
 	"github.com/google/uuid"
+	requestid "github.com/upassed/upassed-submission-service/internal/middleware/common/request_id"
 	"google.golang.org/grpc"
 )
 

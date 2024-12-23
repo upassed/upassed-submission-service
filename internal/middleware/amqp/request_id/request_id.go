@@ -3,9 +3,9 @@ package requestid
 import (
 	"context"
 	"github.com/google/uuid"
-	"github.com/upassed/upassed-answer-service/internal/messanging"
-	"github.com/upassed/upassed-answer-service/internal/middleware/amqp"
-	requestid "github.com/upassed/upassed-answer-service/internal/middleware/common/request_id"
+	"github.com/upassed/upassed-submission-service/internal/messanging"
+	"github.com/upassed/upassed-submission-service/internal/middleware/amqp"
+	requestid "github.com/upassed/upassed-submission-service/internal/middleware/common/request_id"
 	"github.com/wagslane/go-rabbitmq"
 )
 

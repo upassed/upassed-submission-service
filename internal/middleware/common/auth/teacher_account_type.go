@@ -3,9 +3,9 @@ package auth
 import (
 	"context"
 	"errors"
-	"github.com/upassed/upassed-answer-service/internal/handling"
-	"github.com/upassed/upassed-answer-service/internal/logging"
 	"github.com/upassed/upassed-authentication-service/pkg/client"
+	"github.com/upassed/upassed-submission-service/internal/handling"
+	"github.com/upassed/upassed-submission-service/internal/logging"
 	"google.golang.org/grpc/codes"
 	"log/slog"
 )

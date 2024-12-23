@@ -2,10 +2,10 @@ package recovery
 
 import (
 	"context"
-	"github.com/upassed/upassed-answer-service/internal/logging"
-	"github.com/upassed/upassed-answer-service/internal/messanging"
-	"github.com/upassed/upassed-answer-service/internal/middleware/amqp"
-	"github.com/upassed/upassed-answer-service/internal/middleware/common/request_id"
+	"github.com/upassed/upassed-submission-service/internal/logging"
+	"github.com/upassed/upassed-submission-service/internal/messanging"
+	"github.com/upassed/upassed-submission-service/internal/middleware/amqp"
+	requestid "github.com/upassed/upassed-submission-service/internal/middleware/common/request_id"
 	"github.com/wagslane/go-rabbitmq"
 	"log/slog"
 )

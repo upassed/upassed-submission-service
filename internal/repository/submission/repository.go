@@ -2,8 +2,8 @@ package submission
 
 import (
 	"context"
-	"github.com/upassed/upassed-answer-service/internal/config"
-	domain "github.com/upassed/upassed-answer-service/internal/repository/model"
+	"github.com/upassed/upassed-submission-service/internal/config"
+	domain "github.com/upassed/upassed-submission-service/internal/repository/model"
 	"gorm.io/gorm"
 	"log/slog"
 )
