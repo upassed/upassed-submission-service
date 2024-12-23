@@ -4,24 +4,27 @@ import (
 	"github.com/upassed/upassed-answer-service/internal/config"
 	"github.com/upassed/upassed-answer-service/internal/logging"
 	"github.com/upassed/upassed-answer-service/internal/middleware/common/auth"
+	"github.com/upassed/upassed-answer-service/internal/service/answer"
 	"github.com/wagslane/go-rabbitmq"
 	"log/slog"
 )
 
 type rabbitClient struct {
 	authClient       auth.Client
+	service          answer.Service
 	rabbitConnection *rabbitmq.Conn
 	cfg              *config.Config
 	log              *slog.Logger
 }
 
-func Initialize(authClient auth.Client, rabbitConnection *rabbitmq.Conn, cfg *config.Config, log *slog.Logger) {
+func Initialize(authClient auth.Client, service answer.Service, rabbitConnection *rabbitmq.Conn, cfg *config.Config, log *slog.Logger) {
 	log = logging.Wrap(log,
 		logging.WithOp(Initialize),
 	)
 
 	client := &rabbitClient{
 		authClient:       authClient,
+		service:          service,
 		rabbitConnection: rabbitConnection,
 		cfg:              cfg,
 		log:              log,

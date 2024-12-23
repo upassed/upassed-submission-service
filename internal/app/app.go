@@ -7,7 +7,9 @@ import (
 	answerRabbit "github.com/upassed/upassed-answer-service/internal/messanging/answer"
 	"github.com/upassed/upassed-answer-service/internal/middleware/common/auth"
 	"github.com/upassed/upassed-answer-service/internal/repository"
+	answer2 "github.com/upassed/upassed-answer-service/internal/repository/answer"
 	"github.com/upassed/upassed-answer-service/internal/server"
+	"github.com/upassed/upassed-answer-service/internal/service/answer"
 	"log/slog"
 )
 
@@ -18,7 +20,7 @@ type App struct {
 func New(config *config.Config, log *slog.Logger) (*App, error) {
 	log = logging.Wrap(log, logging.WithOp(New))
 
-	_, err := repository.OpenGormDbConnection(config, log)
+	db, err := repository.OpenGormDbConnection(config, log)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +35,10 @@ func New(config *config.Config, log *slog.Logger) (*App, error) {
 		return nil, err
 	}
 
-	answerRabbit.Initialize(authClient, rabbit, config, log)
+	answerRepository := answer2.New(db, config, log)
+	answerService := answer.New(config, log, answerRepository)
+
+	answerRabbit.Initialize(authClient, answerService, rabbit, config, log)
 	appServer := server.New(server.AppServerCreateParams{
 		Config:     config,
 		Log:        log,
