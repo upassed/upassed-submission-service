@@ -1,4 +1,4 @@
-package answer
+package submission
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 )
 
 type Repository interface {
-	Save(ctx context.Context, answers []*domain.Answer) error
+	Save(ctx context.Context, answers []*domain.Submission) error
 }
 
 type repositoryImpl struct {

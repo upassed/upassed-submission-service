@@ -1,2 +1,2 @@
-# upassed-answer-service
-Service responsible for storing students answers to a form questions
+# upassed-submission-service
+Service responsible for storing students submissions to a form questions

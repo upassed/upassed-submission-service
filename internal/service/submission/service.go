@@ -1,4 +1,4 @@
-package answer
+package submission
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 )
 
 type Service interface {
-	Create(ctx context.Context, answer *business.Answer) (*business.AnswerCreateResponse, error)
+	Create(ctx context.Context, submission *business.Submission) (*business.SubmissionCreateResponse, error)
 }
 
 type serviceImpl struct {
@@ -19,7 +19,7 @@ type serviceImpl struct {
 }
 
 type repository interface {
-	Save(ctx context.Context, answers []*domain.Answer) error
+	Save(ctx context.Context, submissions []*domain.Submission) error
 }
 
 func New(cfg *config.Config, log *slog.Logger, repository repository) Service {

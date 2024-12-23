@@ -1,12 +1,12 @@
 env: "testing"
-application_name: upassed-answer-service
+application_name: upassed-submission-service
 grpc_server:
     port: "44044"
     timeout: 10m
 storage:
     host: localhost
     port: 5432
-    database_name: upassed-answer-service-db
+    database_name: upassed-submission-service-db
     user: user
     password: password
 migrations:
@@ -21,16 +21,16 @@ timeouts:
 tracing:
     host: localhost
     port: 14268
-    answer_tracer_name: answer-tracer
+    submission_tracer_name: submission-tracer
 rabbit:
     user: upassed-rabbit-user
     password: upassed-rabbit-password
     host: localhost
     port: 5672
     exchange:
-        name: upassed-answer-service
+        name: upassed-submission-service
         type: direct
     queues:
-        answer_create:
-            name: answer-create-queue
-            routing_key: answer.create
+        submission_create:
+            name: submission-create-queue
+            routing_key: submission.create

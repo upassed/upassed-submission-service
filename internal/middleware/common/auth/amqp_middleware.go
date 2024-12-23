@@ -13,7 +13,7 @@ import (
 var amqpAuthenticationRules = map[string]tokenAuthFunc{}
 
 func (wrapper *clientImpl) AmqpMiddleware(config *config.Config, log *slog.Logger) amqp.Middleware {
-	amqpAuthenticationRules[config.Rabbit.Queues.AnswerCreate.Name] = wrapper.StudentAccountTypeAuthenticationFunc
+	amqpAuthenticationRules[config.Rabbit.Queues.SubmissionCreate.Name] = wrapper.StudentAccountTypeAuthenticationFunc
 
 	return func(ctx context.Context, next messanging.HandlerWithContext) messanging.HandlerWithContext {
 		return func(ctx context.Context, d rabbitmq.Delivery) (action rabbitmq.Action) {

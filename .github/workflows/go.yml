@@ -66,11 +66,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/upassed-answer-service:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/upassed-submission-service:latest .
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/upassed-answer-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/upassed-submission-service:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -86,12 +86,12 @@ jobs:
           SERVER_PASSWORD: ${{ secrets.SERVER_ROOT_PASSWORD }}
         run: |
           sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
-            docker stop upassed-answer-service || true
-            docker rm upassed-answer-service || true
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/upassed-answer-service:latest || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/upassed-answer-service:latest
+            docker stop upassed-submission-service || true
+            docker rm upassed-submission-service || true
+            docker rmi ${{ secrets.DOCKER_USERNAME }}/upassed-submission-service:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/upassed-submission-service:latest
           
-            docker run -d --name upassed-answer-service --network upassed \
+            docker run -d --name upassed-submission-service --network upassed \
               -e POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
               -e POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} \
               -e POSTGRES_DATABASE_NAME=${{ secrets.POSTGRES_DATABASE_NAME }} \
@@ -106,15 +106,15 @@ jobs:
               -e ENDPOINT_EXECUTION_TIMEOUT_MS=${{ secrets.ENDPOINT_EXECUTION_TIMEOUT_MS }} \
               -e JAEGER_HOST=${{ secrets.JAEGER_HOST }} \
               -e JAEGER_PORT=${{ secrets.JAEGER_PORT }} \
-              -e ANSWER_TRACER_NAME=${{ secrets.ANSWER_TRACER_NAME }} \
+              -e SUBMISSION_TRACER_NAME=${{ secrets.SUBMISSION_TRACER_NAME }} \
               -e RABBIT_USER=${{ secrets.RABBIT_USER }} \
               -e RABBIT_PASSWORD=${{ secrets.RABBIT_PASSWORD }} \
               -e RABBIT_HOST=${{ secrets.RABBIT_HOST }} \
               -e RABBIT_PORT=${{ secrets.RABBIT_PORT }} \
               -e RABBIT_EXCHANGE_NAME=${{ secrets.RABBIT_EXCHANGE_NAME }} \
               -e RABBIT_EXCHANGE_TYPE=${{ secrets.RABBIT_EXCHANGE_TYPE }} \
-              -e RABBIT_ANSWER_CREATE_QUEUE_NAME=${{ secrets.RABBIT_ANSWER_CREATE_QUEUE_NAME }} \
-              -e RABBIT_ANSWER_CREATE_QUEUE_ROUTING_KEY=${{ secrets.RABBIT_ANSWER_CREATE_QUEUE_ROUTING_KEY }} \
+              -e RABBIT_SUBMISSION_CREATE_QUEUE_NAME=${{ secrets.RABBIT_SUBMISSION_CREATE_QUEUE_NAME }} \
+              -e RABBIT_SUBMISSION_CREATE_QUEUE_ROUTING_KEY=${{ secrets.RABBIT_SUBMISSION_CREATE_QUEUE_ROUTING_KEY }} \
               -p ${{ secrets.GRPC_SERVER_PORT }}:${{ secrets.GRPC_SERVER_PORT }} \
-              ${{ secrets.DOCKER_USERNAME }}/upassed-answer-service:latest
+              ${{ secrets.DOCKER_USERNAME }}/upassed-submission-service:latest
           EOF

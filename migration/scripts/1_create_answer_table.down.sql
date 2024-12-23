@@ -1,1 +1,1 @@
-drop table answer;
+drop table submission;

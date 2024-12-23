@@ -71,9 +71,9 @@ type Timeouts struct {
 }
 
 type Tracing struct {
-	Host             string `yaml:"host" env:"JAEGER_HOST" env-required:"true"`
-	Port             string `yaml:"port" env:"JAEGER_PORT" env-required:"true"`
-	AnswerTracerName string `yaml:"answer_tracer_name" env:"ANSWER_TRACER_NAME" env-required:"true"`
+	Host                 string `yaml:"host" env:"JAEGER_HOST" env-required:"true"`
+	Port                 string `yaml:"port" env:"JAEGER_PORT" env-required:"true"`
+	SubmissionTracerName string `yaml:"submission_tracer_name" env:"SUBMISSION_TRACER_NAME" env-required:"true"`
 }
 
 type Rabbit struct {
@@ -86,7 +86,7 @@ type Rabbit struct {
 }
 
 type Queues struct {
-	AnswerCreate AnswerCreateQueue `yaml:"answer_create" env-required:"true"`
+	SubmissionCreate SubmissionCreateQueue `yaml:"submission_create" env-required:"true"`
 }
 
 type RabbitExchange struct {
@@ -94,9 +94,9 @@ type RabbitExchange struct {
 	Type string `yaml:"type" env:"RABBIT_EXCHANGE_TYPE" env-required:"true"`
 }
 
-type AnswerCreateQueue struct {
-	Name       string `yaml:"name" env:"RABBIT_ANSWER_CREATE_QUEUE_NAME" env-required:"true"`
-	RoutingKey string `yaml:"routing_key" env:"RABBIT_ANSWER_CREATE_QUEUE_ROUTING_KEY" env-required:"true"`
+type SubmissionCreateQueue struct {
+	Name       string `yaml:"name" env:"RABBIT_SUBMISSION_CREATE_QUEUE_NAME" env-required:"true"`
+	RoutingKey string `yaml:"routing_key" env:"RABBIT_SUBMISSION_CREATE_QUEUE_ROUTING_KEY" env-required:"true"`
 }
 
 func Load() (*Config, error) {

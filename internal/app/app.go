@@ -4,12 +4,12 @@ import (
 	"github.com/upassed/upassed-answer-service/internal/config"
 	"github.com/upassed/upassed-answer-service/internal/logging"
 	"github.com/upassed/upassed-answer-service/internal/messanging"
-	answerRabbit "github.com/upassed/upassed-answer-service/internal/messanging/answer"
+	submissionRabbit "github.com/upassed/upassed-answer-service/internal/messanging/submission"
 	"github.com/upassed/upassed-answer-service/internal/middleware/common/auth"
 	"github.com/upassed/upassed-answer-service/internal/repository"
-	answer2 "github.com/upassed/upassed-answer-service/internal/repository/answer"
+	submissionRepository "github.com/upassed/upassed-answer-service/internal/repository/submission"
 	"github.com/upassed/upassed-answer-service/internal/server"
-	"github.com/upassed/upassed-answer-service/internal/service/answer"
+	"github.com/upassed/upassed-answer-service/internal/service/submission"
 	"log/slog"
 )
 
@@ -35,10 +35,10 @@ func New(config *config.Config, log *slog.Logger) (*App, error) {
 		return nil, err
 	}
 
-	answerRepository := answer2.New(db, config, log)
-	answerService := answer.New(config, log, answerRepository)
+	submissionRepo := submissionRepository.New(db, config, log)
+	submissionService := submission.New(config, log, submissionRepo)
 
-	answerRabbit.Initialize(authClient, answerService, rabbit, config, log)
+	submissionRabbit.Initialize(authClient, submissionService, rabbit, config, log)
 	appServer := server.New(server.AppServerCreateParams{
 		Config:     config,
 		Log:        log,

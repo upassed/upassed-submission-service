@@ -1,27 +1,27 @@
-package answer_test
+package submission_test
 
 import (
 	"encoding/json"
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/upassed/upassed-answer-service/internal/messanging/answer"
+	"github.com/upassed/upassed-answer-service/internal/messanging/submission"
 	"github.com/upassed/upassed-answer-service/internal/util"
 	"testing"
 )
 
-func TestConvertToAnswerCreateRequest_InvalidBytes(t *testing.T) {
+func TestConvertToSubmissionCreateRequest_InvalidBytes(t *testing.T) {
 	invalidBytes := make([]byte, 10)
-	_, err := answer.ConvertToAnswerCreateRequest(invalidBytes)
+	_, err := submission.ConvertToSubmissionCreateRequest(invalidBytes)
 	require.Error(t, err)
 }
 
-func TestConvertToAnswerCreateRequest_ValidBytes(t *testing.T) {
-	initialRequest := util.RandomEventAnswerCreateRequest()
+func TestConvertToSubmissionCreateRequest_ValidBytes(t *testing.T) {
+	initialRequest := util.RandomEventSubmissionCreateRequest()
 	initialRequestBytes, err := json.Marshal(initialRequest)
 	require.NoError(t, err)
 
-	convertedRequest, err := answer.ConvertToAnswerCreateRequest(initialRequestBytes)
+	convertedRequest, err := submission.ConvertToSubmissionCreateRequest(initialRequestBytes)
 	require.NoError(t, err)
 
 	assert.Equal(t, initialRequest.FormID, convertedRequest.FormID)
@@ -33,12 +33,11 @@ func TestConvertToAnswerCreateRequest_ValidBytes(t *testing.T) {
 	}
 }
 
-func TestConvertToBusinessAnswer(t *testing.T) {
+func TestConvertToBusinessSubmission(t *testing.T) {
 	studentUsername := gofakeit.Username()
-	answerCreateRequest := util.RandomEventAnswerCreateRequest()
+	answerCreateRequest := util.RandomEventSubmissionCreateRequest()
 
-	businessAnswer := answer.ConvertToBusinessAnswer(answerCreateRequest, studentUsername)
-	assert.NotNil(t, businessAnswer.ID)
+	businessAnswer := submission.ConvertToBusinessSubmission(answerCreateRequest, studentUsername)
 	assert.Equal(t, answerCreateRequest.FormID, businessAnswer.FormID.String())
 	assert.Equal(t, answerCreateRequest.QuestionID, businessAnswer.QuestionID.String())
 	assert.Equal(t, studentUsername, businessAnswer.StudentUsername)

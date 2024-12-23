@@ -1,4 +1,4 @@
-package answer
+package submission
 
 import (
 	"encoding/json"
@@ -7,8 +7,8 @@ import (
 	business "github.com/upassed/upassed-answer-service/internal/service/model"
 )
 
-func ConvertToAnswerCreateRequest(messageBody []byte) (*event.AnswerCreateRequest, error) {
-	var request event.AnswerCreateRequest
+func ConvertToSubmissionCreateRequest(messageBody []byte) (*event.SubmissionCreateRequest, error) {
+	var request event.SubmissionCreateRequest
 	if err := json.Unmarshal(messageBody, &request); err != nil {
 		return nil, err
 	}
@@ -16,14 +16,13 @@ func ConvertToAnswerCreateRequest(messageBody []byte) (*event.AnswerCreateReques
 	return &request, nil
 }
 
-func ConvertToBusinessAnswer(request *event.AnswerCreateRequest, studentUsername string) *business.Answer {
+func ConvertToBusinessSubmission(request *event.SubmissionCreateRequest, studentUsername string) *business.Submission {
 	answerIDs := make([]uuid.UUID, 0, len(request.AnswerIDs))
 	for _, answerID := range request.AnswerIDs {
 		answerIDs = append(answerIDs, uuid.MustParse(answerID))
 	}
 
-	return &business.Answer{
-		ID:              uuid.New(),
+	return &business.Submission{
 		StudentUsername: studentUsername,
 		FormID:          uuid.MustParse(request.FormID),
 		QuestionID:      uuid.MustParse(request.QuestionID),

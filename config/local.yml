@@ -1,5 +1,5 @@
 env: "local"
-application_name: upassed-answer-service
+application_name: upassed-submission-service
 grpc_server:
     port: ${GRPC_SERVER_PORT}
     timeout: ${GRPC_SERVER_TIMEOUT}
@@ -21,7 +21,7 @@ timeouts:
 tracing:
     host: ${JAEGER_HOST}
     port: ${JAEGER_PORT}
-    answer_tracer_name: ${ANSWER_TRACER_NAME}
+    submission_tracer_name: ${SUBMISSION_TRACER_NAME}
 rabbit:
     user: ${RABBIT_USER}
     password: ${RABBIT_PASSWORD}
@@ -31,6 +31,6 @@ rabbit:
         name: ${RABBIT_EXCHANGE_NAME}
         type: ${RABBIT_EXCHANGE_TYPE}
     queues:
-        answer_create:
-            name: ${RABBIT_ANSWER_CREATE_QUEUE_NAME}
-            routing_key: ${RABBIT_ANSWER_CREATE_QUEUE_ROUTING_KEY}
+        submission_create:
+            name: ${RABBIT_SUBMISSION_CREATE_QUEUE_NAME}
+            routing_key: ${RABBIT_SUBMISSION_CREATE_QUEUE_ROUTING_KEY}

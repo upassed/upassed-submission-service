@@ -2,14 +2,13 @@ package business
 
 import "github.com/google/uuid"
 
-type Answer struct {
-	ID              uuid.UUID
+type Submission struct {
 	StudentUsername string
 	FormID          uuid.UUID
 	QuestionID      uuid.UUID
 	AnswerIDs       uuid.UUIDs
 }
 
-type AnswerCreateResponse struct {
-	CreatedAnswerIDs uuid.UUIDs
+type SubmissionCreateResponse struct {
+	CreatedSubmissionIDs uuid.UUIDs
 }

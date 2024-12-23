@@ -1,4 +1,4 @@
-package answer
+package submission
 
 import (
 	"context"
@@ -23,13 +23,13 @@ func (client *rabbitClient) CreateQueueConsumer() rabbitmq.Handler {
 			logging.WithCtx(ctx),
 		)
 
-		log.Info("consumed answers create message", slog.String("messageBody", string(delivery.Body)))
-		spanContext, span := otel.Tracer(client.cfg.Tracing.AnswerTracerName).Start(ctx, "answer#Create")
+		log.Info("consumed submission create message", slog.String("messageBody", string(delivery.Body)))
+		spanContext, span := otel.Tracer(client.cfg.Tracing.SubmissionTracerName).Start(ctx, "submission#Create")
 		span.SetAttributes(attribute.String(string(requestid.ContextKey), requestid.GetRequestIDFromContext(ctx)))
 		defer span.End()
 
-		log.Info("converting message body to answer create request struct")
-		request, err := ConvertToAnswerCreateRequest(delivery.Body)
+		log.Info("converting message body to submission create request struct")
+		request, err := ConvertToSubmissionCreateRequest(delivery.Body)
 		if err != nil {
 			log.Error("unable to convert message body to create request struct", logging.Error(err))
 			tracing.SetSpanError(span, err)
@@ -43,22 +43,22 @@ func (client *rabbitClient) CreateQueueConsumer() rabbitmq.Handler {
 			attribute.String("studentUsername", studentUsername),
 		)
 
-		log.Info("validating answer create request")
+		log.Info("validating submission create request")
 		if err := request.Validate(); err != nil {
-			log.Error("answer create request is invalid", logging.Error(err))
+			log.Error("submission create request is invalid", logging.Error(err))
 			tracing.SetSpanError(span, err)
 			return rabbitmq.NackDiscard
 		}
 
-		log.Info("creating answer")
-		response, err := client.service.Create(spanContext, ConvertToBusinessAnswer(request, studentUsername))
+		log.Info("creating submission")
+		response, err := client.service.Create(spanContext, ConvertToBusinessSubmission(request, studentUsername))
 		if err != nil {
-			log.Error("unable to create answer", logging.Error(err))
+			log.Error("unable to create submission", logging.Error(err))
 			tracing.SetSpanError(span, err)
 			return rabbitmq.NackDiscard
 		}
 
-		log.Info("successfully created answer", slog.Any("createdAnswerID", response.CreatedAnswerIDs))
+		log.Info("successfully created submission", slog.Any("createdSubmissionIDs", response.CreatedSubmissionIDs))
 		return rabbitmq.Ack
 	}
 
