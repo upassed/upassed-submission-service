@@ -20,6 +20,8 @@ type serviceImpl struct {
 
 type repository interface {
 	Save(ctx context.Context, submissions []*domain.Submission) error
+	Exists(ctx context.Context, params *domain.SubmissionExistCheckParams) (bool, error)
+	Delete(ctx context.Context, params *domain.SubmissionDeleteParams) error
 }
 
 func New(cfg *config.Config, log *slog.Logger, repository repository) Service {

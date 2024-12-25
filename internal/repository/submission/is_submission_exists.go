@@ -5,7 +5,6 @@ import (
 	domain "github.com/upassed/upassed-submission-service/internal/repository/model"
 )
 
-func (repository *repositoryImpl) Save(_ context.Context, _ []*domain.Submission) error {
-	//TODO implement me
+func (repository *repositoryImpl) Exists(_ context.Context, _ *domain.SubmissionExistCheckParams) (bool, error) {
 	panic("implement me")
 }

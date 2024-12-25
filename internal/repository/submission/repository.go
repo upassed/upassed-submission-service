@@ -10,6 +10,8 @@ import (
 
 type Repository interface {
 	Save(ctx context.Context, answers []*domain.Submission) error
+	Exists(ctx context.Context, params *domain.SubmissionExistCheckParams) (bool, error)
+	Delete(ctx context.Context, params *domain.SubmissionDeleteParams) error
 }
 
 type repositoryImpl struct {

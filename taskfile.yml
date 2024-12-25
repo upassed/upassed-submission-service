@@ -14,3 +14,6 @@ tasks:
         desc: "Generate all mocks"
         cmds:
             - rm -rf internal/util/mocks/*
+            - mockgen -source=internal/repository/submission/repository.go -destination=internal/util/mocks/mock_submission_repository.go -package mocks -mock_names Repository=SubmissionRepository Repository
+            - mockgen -source=internal/service/submission/service.go -destination=internal/util/mocks/mock_submission_service.go -package mocks -mock_names Service=SubmissionService Service
+            - mockgen -source=internal/middleware/common/auth/auth.go -destination=internal/util/mocks/mock_auth_client_middleware.go -package mocks -mock_names Client=AuthClientMW Client

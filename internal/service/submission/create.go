@@ -7,6 +7,7 @@ import (
 	"github.com/upassed/upassed-submission-service/internal/handling"
 	"github.com/upassed/upassed-submission-service/internal/logging"
 	"github.com/upassed/upassed-submission-service/internal/middleware/common/auth"
+	domain "github.com/upassed/upassed-submission-service/internal/repository/model"
 	business "github.com/upassed/upassed-submission-service/internal/service/model"
 	"github.com/upassed/upassed-submission-service/internal/tracing"
 	"go.opentelemetry.io/otel"
@@ -41,6 +42,34 @@ func (service *serviceImpl) Create(ctx context.Context, submission *business.Sub
 	timeout := service.cfg.GetEndpointExecutionTimeout()
 
 	submissionCreateResponse, err := async.ExecuteWithTimeout(spanContext, timeout, func(ctx context.Context) (*business.SubmissionCreateResponse, error) {
+		log.Info("checking student's existing submission to this form question")
+		submissionExists, err := service.repository.Exists(ctx, &domain.SubmissionExistCheckParams{
+			StudentUsername: submission.StudentUsername,
+			FormID:          submission.FormID,
+			QuestionID:      submission.QuestionID,
+		})
+
+		if err != nil {
+			log.Error("unable to check if submission already exists", logging.Error(err))
+			tracing.SetSpanError(span, err)
+			return nil, err
+		}
+
+		if submissionExists {
+			log.Info("student already have submission to this question, deleting his old submission")
+			if err := service.repository.Delete(ctx, &domain.SubmissionDeleteParams{
+				StudentUsername: submission.StudentUsername,
+				FormID:          submission.FormID,
+				QuestionID:      submission.QuestionID,
+			}); err != nil {
+				log.Error("error deleting student old submission", logging.Error(err))
+				tracing.SetSpanError(span, err)
+				return nil, err
+			}
+
+			log.Info("student old submission was successfully deleted")
+		}
+
 		log.Info("saving submission data to the database")
 		domainSubmissions := ConvertToDomainSubmissions(submission)
 
