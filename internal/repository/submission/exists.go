@@ -29,7 +29,7 @@ func (repository *repositoryImpl) Exists(ctx context.Context, params *domain.Sub
 	defer span.End()
 
 	log := logging.Wrap(repository.log,
-		logging.WithOp(repository.Save),
+		logging.WithOp(repository.Exists),
 		logging.WithCtx(ctx),
 		logging.WithAny("formID", params.FormID.String()),
 		logging.WithAny("questionID", params.QuestionID.String()),

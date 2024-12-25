@@ -95,3 +95,46 @@ func TestSaveAndExist_HappyPath(t *testing.T) {
 	require.NoError(t, err)
 	assert.True(t, exists)
 }
+
+func TestDelete_HappyPath(t *testing.T) {
+	domainSubmissions := util.RandomDomainSubmissions()
+	ctx := context.WithValue(context.Background(), auth.UsernameKey, domainSubmissions[0].StudentUsername)
+
+	exists, err := submissionRepository.Exists(ctx, &domain.SubmissionExistCheckParams{
+		StudentUsername: domainSubmissions[0].StudentUsername,
+		FormID:          domainSubmissions[0].FormID,
+		QuestionID:      domainSubmissions[0].QuestionID,
+	})
+
+	require.NoError(t, err)
+	assert.False(t, exists)
+
+	err = submissionRepository.Save(ctx, domainSubmissions)
+	require.NoError(t, err)
+
+	exists, err = submissionRepository.Exists(ctx, &domain.SubmissionExistCheckParams{
+		StudentUsername: domainSubmissions[0].StudentUsername,
+		FormID:          domainSubmissions[0].FormID,
+		QuestionID:      domainSubmissions[0].QuestionID,
+	})
+
+	require.NoError(t, err)
+	assert.True(t, exists)
+
+	err = submissionRepository.Delete(ctx, &domain.SubmissionDeleteParams{
+		StudentUsername: domainSubmissions[0].StudentUsername,
+		FormID:          domainSubmissions[0].FormID,
+		QuestionID:      domainSubmissions[0].QuestionID,
+	})
+
+	require.NoError(t, err)
+
+	exists, err = submissionRepository.Exists(ctx, &domain.SubmissionExistCheckParams{
+		StudentUsername: domainSubmissions[0].StudentUsername,
+		FormID:          domainSubmissions[0].FormID,
+		QuestionID:      domainSubmissions[0].QuestionID,
+	})
+
+	require.NoError(t, err)
+	assert.False(t, exists)
+}
