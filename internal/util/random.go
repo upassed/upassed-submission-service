@@ -4,6 +4,7 @@ import (
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/google/uuid"
 	event "github.com/upassed/upassed-submission-service/internal/messanging/model"
+	domain "github.com/upassed/upassed-submission-service/internal/repository/model"
 	business "github.com/upassed/upassed-submission-service/internal/service/model"
 )
 
@@ -34,4 +35,25 @@ func RandomBusinessSubmission() *business.Submission {
 		QuestionID:      uuid.New(),
 		AnswerIDs:       answerIDs,
 	}
+}
+
+func RandomDomainSubmissions() []*domain.Submission {
+	numberOfSubmissions := gofakeit.IntRange(2, 10)
+	submissions := make([]*domain.Submission, 0, numberOfSubmissions)
+
+	formID := uuid.New()
+	questionID := uuid.New()
+	studentUsername := gofakeit.Username()
+
+	for i := 0; i < numberOfSubmissions; i++ {
+		submissions = append(submissions, &domain.Submission{
+			ID:              uuid.New(),
+			StudentUsername: studentUsername,
+			FormID:          formID,
+			QuestionID:      questionID,
+			AnswerID:        uuid.New(),
+		})
+	}
+
+	return submissions
 }

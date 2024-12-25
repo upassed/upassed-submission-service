@@ -10,6 +10,10 @@ type Submission struct {
 	AnswerID        uuid.UUID
 }
 
+func (Submission) TableName() string {
+	return "submission"
+}
+
 type SubmissionExistCheckParams struct {
 	StudentUsername string
 	FormID          uuid.UUID
