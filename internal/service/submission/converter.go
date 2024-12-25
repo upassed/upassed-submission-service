@@ -33,3 +33,19 @@ func ConvertToSubmissionCreateResponse(domainSubmissions []*domain.Submission) *
 		CreatedSubmissionIDs: createdSubmissionIDs,
 	}
 }
+
+func ConvertToSubmissionExistCheckParams(submission *business.Submission) *domain.SubmissionExistCheckParams {
+	return &domain.SubmissionExistCheckParams{
+		StudentUsername: submission.StudentUsername,
+		FormID:          submission.FormID,
+		QuestionID:      submission.QuestionID,
+	}
+}
+
+func ConvertToSubmissionDeleteParams(submission *business.Submission) *domain.SubmissionDeleteParams {
+	return &domain.SubmissionDeleteParams{
+		StudentUsername: submission.StudentUsername,
+		FormID:          submission.FormID,
+		QuestionID:      submission.QuestionID,
+	}
+}

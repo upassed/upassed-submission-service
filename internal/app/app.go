@@ -40,9 +40,10 @@ func New(config *config.Config, log *slog.Logger) (*App, error) {
 
 	submissionRabbit.Initialize(authClient, submissionService, rabbit, config, log)
 	appServer := server.New(server.AppServerCreateParams{
-		Config:     config,
-		Log:        log,
-		AuthClient: authClient,
+		Config:            config,
+		Log:               log,
+		AuthClient:        authClient,
+		SubmissionService: submissionService,
 	})
 
 	log.Info("app successfully created")

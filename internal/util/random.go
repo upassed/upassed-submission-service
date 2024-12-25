@@ -57,3 +57,28 @@ func RandomDomainSubmissions() []*domain.Submission {
 
 	return submissions
 }
+
+func RandomBusinessFormSubmissions() *business.FormSubmissions {
+	questionSubmissionsNumber := gofakeit.IntRange(10, 20)
+	questionSubmissions := make([]*business.QuestionSubmission, 0, questionSubmissionsNumber)
+
+	for i := 0; i < questionSubmissionsNumber; i++ {
+		answerIDsNumber := gofakeit.IntRange(1, 5)
+		answerIDs := make([]uuid.UUID, 0, answerIDsNumber)
+
+		for j := 0; j < answerIDsNumber; j++ {
+			answerIDs = append(answerIDs, uuid.New())
+		}
+
+		questionSubmissions = append(questionSubmissions, &business.QuestionSubmission{
+			QuestionID: uuid.New(),
+			AnswerIDs:  answerIDs,
+		})
+	}
+
+	return &business.FormSubmissions{
+		StudentUsername:     gofakeit.Username(),
+		FormID:              uuid.New(),
+		QuestionSubmissions: questionSubmissions,
+	}
+}

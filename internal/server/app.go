@@ -9,6 +9,8 @@ import (
 	loggingMiddleware "github.com/upassed/upassed-submission-service/internal/middleware/grpc/logging"
 	"github.com/upassed/upassed-submission-service/internal/middleware/grpc/recovery"
 	requestid "github.com/upassed/upassed-submission-service/internal/middleware/grpc/request_id"
+	"github.com/upassed/upassed-submission-service/internal/server/submission"
+	submissionSvc "github.com/upassed/upassed-submission-service/internal/service/submission"
 	"google.golang.org/grpc"
 	"log/slog"
 	"net"
@@ -26,9 +28,10 @@ type AppServer struct {
 }
 
 type AppServerCreateParams struct {
-	Config     *config.Config
-	Log        *slog.Logger
-	AuthClient auth.Client
+	Config            *config.Config
+	Log               *slog.Logger
+	AuthClient        auth.Client
+	SubmissionService submissionSvc.Service
 }
 
 func New(params AppServerCreateParams) *AppServer {
@@ -41,6 +44,7 @@ func New(params AppServerCreateParams) *AppServer {
 		),
 	)
 
+	submission.Register(server, params.Config, params.SubmissionService)
 	return &AppServer{
 		config: params.Config,
 		log:    params.Log,

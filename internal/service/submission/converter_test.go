@@ -33,3 +33,21 @@ func TestConvertToSubmissionCreateResponse(t *testing.T) {
 		assert.Equal(t, domainSubmission.ID, submissionCreateResponse.CreatedSubmissionIDs[idx])
 	}
 }
+
+func TestConvertToSubmissionExistCheckParams(t *testing.T) {
+	submissionToConvert := util.RandomBusinessSubmission()
+	params := submission.ConvertToSubmissionExistCheckParams(submissionToConvert)
+
+	assert.Equal(t, submissionToConvert.StudentUsername, params.StudentUsername)
+	assert.Equal(t, submissionToConvert.FormID, params.FormID)
+	assert.Equal(t, submissionToConvert.QuestionID, params.QuestionID)
+}
+
+func TestConvertToSubmissionDeleteParams(t *testing.T) {
+	submissionToConvert := util.RandomBusinessSubmission()
+	params := submission.ConvertToSubmissionDeleteParams(submissionToConvert)
+
+	assert.Equal(t, submissionToConvert.StudentUsername, params.StudentUsername)
+	assert.Equal(t, submissionToConvert.FormID, params.FormID)
+	assert.Equal(t, submissionToConvert.QuestionID, params.QuestionID)
+}

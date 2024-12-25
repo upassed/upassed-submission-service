@@ -9,6 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	uuid "github.com/google/uuid"
 	domain "github.com/upassed/upassed-submission-service/internal/repository/model"
 	business "github.com/upassed/upassed-submission-service/internal/service/model"
 )
@@ -49,6 +50,21 @@ func (m *SubmissionService) Create(ctx context.Context, submission *business.Sub
 func (mr *SubmissionServiceMockRecorder) Create(ctx, submission interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*SubmissionService)(nil).Create), ctx, submission)
+}
+
+// FindByFormID mocks base method.
+func (m *SubmissionService) FindByFormID(ctx context.Context, formID uuid.UUID) (*business.FormSubmissions, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByFormID", ctx, formID)
+	ret0, _ := ret[0].(*business.FormSubmissions)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByFormID indicates an expected call of FindByFormID.
+func (mr *SubmissionServiceMockRecorder) FindByFormID(ctx, formID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByFormID", reflect.TypeOf((*SubmissionService)(nil).FindByFormID), ctx, formID)
 }
 
 // Mockrepository is a mock of repository interface.

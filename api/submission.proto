@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package api;
+
+import "validate/validate.proto";
+
+option go_package = "upassed.assignment.v1;client";
+
+service Submission {
+  rpc FindStudentFormSubmissions(FindStudentFormSubmissionsRequest) returns (FindStudentFormSubmissionsResponse);
+}
+
+message FindStudentFormSubmissionsRequest {
+  string form_id = 1 [(validate.rules).string.uuid = true];
+}
+
+message FindStudentFormSubmissionsResponse {
+  string student_username = 1;
+  string form_id = 2;
+  repeated QuestionSubmission question_submissions = 3;
+}
+
+message QuestionSubmission {
+  string question_id = 1;
+  repeated string answer_ids = 2;
+}
