@@ -2,6 +2,8 @@ package submission_test
 
 import (
 	"context"
+	"github.com/brianvoe/gofakeit/v7"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/upassed/upassed-submission-service/internal/config"
@@ -12,6 +14,8 @@ import (
 	"github.com/upassed/upassed-submission-service/internal/repository/submission"
 	"github.com/upassed/upassed-submission-service/internal/testcontainer"
 	"github.com/upassed/upassed-submission-service/internal/util"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"log"
 	"os"
 	"path/filepath"
@@ -137,4 +141,36 @@ func TestDelete_HappyPath(t *testing.T) {
 
 	require.NoError(t, err)
 	assert.False(t, exists)
+}
+
+func TestFindStudentFormSubmissions_SubmissionsNotFound(t *testing.T) {
+	studentUsername := gofakeit.Username()
+	ctx := context.WithValue(context.Background(), auth.UsernameKey, studentUsername)
+
+	_, err := submissionRepository.FindStudentFormSubmissions(ctx, &domain.StudentFormSubmissionsSearchParams{
+		StudentUsername: studentUsername,
+		FormID:          uuid.New(),
+	})
+
+	require.Error(t, err)
+
+	convertedError := status.Convert(err)
+	assert.Equal(t, submission.ErrStudentFormSubmissionsNotFound.Error(), convertedError.Message())
+	assert.Equal(t, codes.NotFound, convertedError.Code())
+}
+
+func TestFindStudentFormSubmissions_SubmissionsFound(t *testing.T) {
+	domainSubmissions := util.RandomDomainSubmissions()
+	ctx := context.WithValue(context.Background(), auth.UsernameKey, domainSubmissions[0].StudentUsername)
+
+	err := submissionRepository.Save(ctx, domainSubmissions)
+	require.NoError(t, err)
+
+	foundSubmissions, err := submissionRepository.FindStudentFormSubmissions(ctx, &domain.StudentFormSubmissionsSearchParams{
+		StudentUsername: domainSubmissions[0].StudentUsername,
+		FormID:          domainSubmissions[0].FormID,
+	})
+
+	require.NoError(t, err)
+	assert.Equal(t, len(domainSubmissions), len(foundSubmissions))
 }
