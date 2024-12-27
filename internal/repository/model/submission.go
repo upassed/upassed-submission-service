@@ -25,3 +25,8 @@ type SubmissionDeleteParams struct {
 	FormID          uuid.UUID
 	QuestionID      uuid.UUID
 }
+
+type StudentFormSubmissionsSearchParams struct {
+	StudentUsername string
+	FormID          uuid.UUID
+}

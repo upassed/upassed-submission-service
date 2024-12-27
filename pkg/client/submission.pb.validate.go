@@ -61,6 +61,17 @@ func (m *FindStudentFormSubmissionsRequest) validate(all bool) error {
 
 	var errors []error
 
+	if l := utf8.RuneCountInString(m.GetStudentUsername()); l < 4 || l > 30 {
+		err := FindStudentFormSubmissionsRequestValidationError{
+			field:  "StudentUsername",
+			reason: "value length must be between 4 and 30 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if err := m._validateUuid(m.GetFormId()); err != nil {
 		err = FindStudentFormSubmissionsRequestValidationError{
 			field:  "FormId",

@@ -1,6 +1,8 @@
 package business
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type Submission struct {
 	StudentUsername string
@@ -22,4 +24,9 @@ type QuestionSubmission struct {
 
 type SubmissionCreateResponse struct {
 	CreatedSubmissionIDs uuid.UUIDs
+}
+
+type StudentFormSubmissionSearchParams struct {
+	StudentUsername string
+	FormID          uuid.UUID
 }

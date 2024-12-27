@@ -11,7 +11,8 @@ service Submission {
 }
 
 message FindStudentFormSubmissionsRequest {
-  string form_id = 1 [(validate.rules).string.uuid = true];
+  string student_username = 1 [(validate.rules).string = {min_len: 4, max_len: 30}];
+  string form_id = 2 [(validate.rules).string.uuid = true];
 }
 
 message FindStudentFormSubmissionsResponse {

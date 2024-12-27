@@ -1,6 +1,8 @@
 package submission_test
 
 import (
+	"github.com/brianvoe/gofakeit/v7"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/upassed/upassed-submission-service/internal/server/submission"
 	"github.com/upassed/upassed-submission-service/internal/util"
@@ -25,4 +27,14 @@ func TestConvertToFindStudentFormSubmissionsResponse(t *testing.T) {
 			assert.Equal(t, answerID.String(), convertedQuestionSubmission.GetAnswerIds()[answerIdx])
 		}
 	}
+}
+
+func TestConvertToStudentFormSubmissionsSearchParams(t *testing.T) {
+	studentUsername := gofakeit.Username()
+	formID := uuid.New()
+
+	params := submission.ConvertToStudentFormSubmissionsSearchParams(studentUsername, formID)
+
+	assert.Equal(t, studentUsername, params.StudentUsername)
+	assert.Equal(t, formID, params.FormID)
 }

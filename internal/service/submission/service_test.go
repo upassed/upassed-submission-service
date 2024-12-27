@@ -5,11 +5,14 @@ import (
 	"errors"
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/upassed/upassed-submission-service/internal/config"
+	"github.com/upassed/upassed-submission-service/internal/handling"
 	"github.com/upassed/upassed-submission-service/internal/logging"
 	"github.com/upassed/upassed-submission-service/internal/middleware/common/auth"
+	business "github.com/upassed/upassed-submission-service/internal/service/model"
 	"github.com/upassed/upassed-submission-service/internal/service/submission"
 	"github.com/upassed/upassed-submission-service/internal/util"
 	"github.com/upassed/upassed-submission-service/internal/util/mocks"
@@ -182,4 +185,74 @@ func TestCreate_HappyPath_NoSubmissionsExisted(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Equal(t, len(submissionToCreate.AnswerIDs), len(response.CreatedSubmissionIDs))
+}
+
+func TestFindStudentFormSubmissions_RepositoryError(t *testing.T) {
+	studentUsername := gofakeit.Username()
+	ctx := context.WithValue(context.Background(), auth.UsernameKey, studentUsername)
+
+	expectedRepositoryError := handling.New("repo error", codes.NotFound)
+	repository.EXPECT().
+		FindStudentFormSubmissions(gomock.Any(), gomock.Any()).
+		Return(nil, expectedRepositoryError)
+
+	formID := uuid.New()
+	_, err := service.FindStudentFormSubmissions(ctx, &business.StudentFormSubmissionSearchParams{
+		StudentUsername: studentUsername,
+		FormID:          formID,
+	})
+
+	require.Error(t, err)
+
+	convertedError := status.Convert(err)
+	assert.Equal(t, expectedRepositoryError.Error(), convertedError.Message())
+	assert.Equal(t, expectedRepositoryError.Code(), convertedError.Code())
+}
+
+func TestFindStudentFormSubmissions_ErrorDeadlineExceeded(t *testing.T) {
+	oldTimeout := cfg.Timeouts.EndpointExecutionTimeoutMS
+	cfg.Timeouts.EndpointExecutionTimeoutMS = "0"
+
+	studentUsername := gofakeit.Username()
+	ctx := context.WithValue(context.Background(), auth.UsernameKey, studentUsername)
+
+	foundSubmissions := util.RandomDomainSubmissions()
+	repository.EXPECT().
+		FindStudentFormSubmissions(gomock.Any(), gomock.Any()).
+		Return(foundSubmissions, nil)
+
+	formID := uuid.New()
+	_, err := service.FindStudentFormSubmissions(ctx, &business.StudentFormSubmissionSearchParams{
+		StudentUsername: studentUsername,
+		FormID:          formID,
+	})
+
+	require.Error(t, err)
+
+	convertedError := status.Convert(err)
+	assert.Equal(t, submission.ErrSubmissionSearchingDeadlineExceeded.Error(), convertedError.Message())
+	assert.Equal(t, codes.DeadlineExceeded, convertedError.Code())
+
+	cfg.Timeouts.EndpointExecutionTimeoutMS = oldTimeout
+}
+
+func TestFindStudentFormSubmissions_HappyPath(t *testing.T) {
+	studentUsername := gofakeit.Username()
+	ctx := context.WithValue(context.Background(), auth.UsernameKey, studentUsername)
+
+	foundSubmissions := util.RandomDomainSubmissions()
+	repository.EXPECT().
+		FindStudentFormSubmissions(gomock.Any(), gomock.Any()).
+		Return(foundSubmissions, nil)
+
+	formID := uuid.New()
+	response, err := service.FindStudentFormSubmissions(ctx, &business.StudentFormSubmissionSearchParams{
+		StudentUsername: studentUsername,
+		FormID:          formID,
+	})
+
+	require.NoError(t, err)
+	assert.NotNil(t, response.StudentUsername)
+	assert.NotNil(t, response.FormID)
+	assert.NotEmpty(t, response.QuestionSubmissions)
 }

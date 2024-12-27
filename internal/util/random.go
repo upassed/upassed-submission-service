@@ -38,7 +38,7 @@ func RandomBusinessSubmission() *business.Submission {
 }
 
 func RandomDomainSubmissions() []*domain.Submission {
-	numberOfSubmissions := gofakeit.IntRange(2, 10)
+	numberOfSubmissions := gofakeit.IntRange(10, 50)
 	submissions := make([]*domain.Submission, 0, numberOfSubmissions)
 
 	formID := uuid.New()

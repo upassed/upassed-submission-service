@@ -64,6 +64,21 @@ func (mr *SubmissionRepositoryMockRecorder) Exists(ctx, params interface{}) *gom
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Exists", reflect.TypeOf((*SubmissionRepository)(nil).Exists), ctx, params)
 }
 
+// FindStudentFormSubmissions mocks base method.
+func (m *SubmissionRepository) FindStudentFormSubmissions(ctx context.Context, params *domain.StudentFormSubmissionsSearchParams) ([]*domain.Submission, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindStudentFormSubmissions", ctx, params)
+	ret0, _ := ret[0].([]*domain.Submission)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindStudentFormSubmissions indicates an expected call of FindStudentFormSubmissions.
+func (mr *SubmissionRepositoryMockRecorder) FindStudentFormSubmissions(ctx, params interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindStudentFormSubmissions", reflect.TypeOf((*SubmissionRepository)(nil).FindStudentFormSubmissions), ctx, params)
+}
+
 // Save mocks base method.
 func (m *SubmissionRepository) Save(ctx context.Context, answers []*domain.Submission) error {
 	m.ctrl.T.Helper()

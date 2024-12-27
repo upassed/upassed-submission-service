@@ -49,3 +49,36 @@ func ConvertToSubmissionDeleteParams(submission *business.Submission) *domain.Su
 		QuestionID:      submission.QuestionID,
 	}
 }
+
+func ConvertToStudentFormSubmissionsSearchParams(studentUsername string, formID uuid.UUID) *domain.StudentFormSubmissionsSearchParams {
+	return &domain.StudentFormSubmissionsSearchParams{
+		StudentUsername: studentUsername,
+		FormID:          formID,
+	}
+}
+
+func ConvertToFormSubmissions(domainSubmissions []*domain.Submission) *business.FormSubmissions {
+	answerIDsByQuestionID := make(map[uuid.UUID]uuid.UUIDs, len(domainSubmissions))
+	for _, questionSubmission := range domainSubmissions {
+		answerIDsByQuestionID[questionSubmission.QuestionID] = append(answerIDsByQuestionID[questionSubmission.QuestionID], questionSubmission.AnswerID)
+	}
+
+	questionSubmissions := make([]*business.QuestionSubmission, 0, len(domainSubmissions))
+	for questionID, answerIDs := range answerIDsByQuestionID {
+		finalAnswerIDs := answerIDs
+		if len(finalAnswerIDs) == 0 {
+			finalAnswerIDs = make([]uuid.UUID, 0)
+		}
+
+		questionSubmissions = append(questionSubmissions, &business.QuestionSubmission{
+			QuestionID: questionID,
+			AnswerIDs:  finalAnswerIDs,
+		})
+	}
+
+	return &business.FormSubmissions{
+		StudentUsername:     domainSubmissions[0].StudentUsername,
+		FormID:              domainSubmissions[0].FormID,
+		QuestionSubmissions: questionSubmissions,
+	}
+}

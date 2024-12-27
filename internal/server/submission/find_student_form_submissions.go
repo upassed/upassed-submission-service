@@ -29,7 +29,11 @@ func (server *submissionServerAPI) FindStudentFormSubmissions(ctx context.Contex
 		return nil, handling.Wrap(err, handling.WithCode(codes.InvalidArgument))
 	}
 
-	response, err := server.service.FindByFormID(spanContext, uuid.MustParse(request.GetFormId()))
+	response, err := server.service.FindStudentFormSubmissions(spanContext, ConvertToStudentFormSubmissionsSearchParams(
+		request.GetStudentUsername(),
+		uuid.MustParse(request.GetFormId()),
+	))
+
 	if err != nil {
 		tracing.SetSpanError(span, err)
 		return nil, err

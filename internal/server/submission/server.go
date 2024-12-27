@@ -2,7 +2,6 @@ package submission
 
 import (
 	"context"
-	"github.com/google/uuid"
 	"github.com/upassed/upassed-submission-service/internal/config"
 	business "github.com/upassed/upassed-submission-service/internal/service/model"
 	"github.com/upassed/upassed-submission-service/pkg/client"
@@ -16,7 +15,7 @@ type submissionServerAPI struct {
 }
 
 type assignmentService interface {
-	FindByFormID(ctx context.Context, formID uuid.UUID) (*business.FormSubmissions, error)
+	FindStudentFormSubmissions(ctx context.Context, params *business.StudentFormSubmissionSearchParams) (*business.FormSubmissions, error)
 }
 
 func Register(gRPC *grpc.Server, cfg *config.Config, service assignmentService) {

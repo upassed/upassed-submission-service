@@ -3,6 +3,7 @@ package submission_test
 import (
 	"context"
 	"fmt"
+	"github.com/brianvoe/gofakeit/v7"
 	"github.com/golang/mock/gomock"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -81,7 +82,8 @@ func TestMain(m *testing.M) {
 
 func TestFindStudentFormSubmissions_InvalidRequest(t *testing.T) {
 	request := &client.FindStudentFormSubmissionsRequest{
-		FormId: "invalid_uuid",
+		FormId:          "invalid_uuid",
+		StudentUsername: gofakeit.Username(),
 	}
 
 	_, err := submissionClient.FindStudentFormSubmissions(context.Background(), request)
@@ -93,12 +95,13 @@ func TestFindStudentFormSubmissions_InvalidRequest(t *testing.T) {
 
 func TestFindStudentFormSubmissions_ServiceError(t *testing.T) {
 	request := &client.FindStudentFormSubmissionsRequest{
-		FormId: uuid.NewString(),
+		FormId:          uuid.NewString(),
+		StudentUsername: gofakeit.Username(),
 	}
 
 	expectedServiceError := handling.New("some service error", codes.NotFound)
 	submissionSvc.EXPECT().
-		FindByFormID(gomock.Any(), uuid.MustParse(request.GetFormId())).
+		FindStudentFormSubmissions(gomock.Any(), gomock.Any()).
 		Return(nil, expectedServiceError)
 
 	_, err := submissionClient.FindStudentFormSubmissions(context.Background(), request)
@@ -111,12 +114,13 @@ func TestFindStudentFormSubmissions_ServiceError(t *testing.T) {
 
 func TestFindStudentFormSubmissions_HappyPath(t *testing.T) {
 	request := &client.FindStudentFormSubmissionsRequest{
-		FormId: uuid.NewString(),
+		FormId:          uuid.NewString(),
+		StudentUsername: gofakeit.Username(),
 	}
 
 	foundFormSubmissions := util.RandomBusinessFormSubmissions()
 	submissionSvc.EXPECT().
-		FindByFormID(gomock.Any(), uuid.MustParse(request.GetFormId())).
+		FindStudentFormSubmissions(gomock.Any(), gomock.Any()).
 		Return(foundFormSubmissions, nil)
 
 	response, err := submissionClient.FindStudentFormSubmissions(context.Background(), request)

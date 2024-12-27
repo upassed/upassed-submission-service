@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	ErrSubmissionCreateDeadlineExceeded = errors.New("")
+	ErrSubmissionCreateDeadlineExceeded = errors.New("deadline exceeded while creating submission")
 )
 
 func (service *serviceImpl) Create(ctx context.Context, submission *business.Submission) (*business.SubmissionCreateResponse, error) {
